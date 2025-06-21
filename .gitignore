@@ -10,6 +10,7 @@ __pycache__/
 data/*
 !data/README.md
 !data/download_files.py
+
 # Distribution / packaging
 .Python
 build/

@@ -11,3 +11,10 @@ This project uses publicly available supernova datasets - **Pantheon+** and **DE
 ## Motivation
 
 Type Ia supernova are standardizable candles used to measure cosmic distances. Here, we train regression models to predict the corrected/standardized apparent magnitudes of Type Ia supernovae from the redshift, stretch and color of the supernovae.
+
+## Project Structure
+
+```text
+pantheonplus-regression/
+
+```
