@@ -8,7 +8,7 @@ data_path = os.path.join(BASE_DIR,'data')
 
 # Load data for preprocessing, this is just a basic function
 def load_data(path1):
-    data = pd.read_csv(path1, delim_whitespace=True) 
+    data = pd.read_csv(path1, sep = '\s+') 
     #Here, delim_whitespace is used because of the data being in a .dat file and the headers are separated by whitespace
     return data
 
@@ -23,5 +23,5 @@ def preprocess_des_data(path2, z = 0):
     data = pd.read_csv(path2)
     data_f = data[data['zHD'] > z]
     X = data_f[['zHD','x1','c']]
-    y = data_f['mB']
+    y = data_f['mB_corr']
     return X,y
