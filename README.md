@@ -16,5 +16,15 @@ Type Ia supernova are standardizable candles used to measure cosmic distances. H
 
 ```text
 pantheonplus-regression/
-
+├── data/
+│   ├── download_files.py
+│   └── README.md
+├── notebooks/
+│   ├── 0_pantheonplus_visualization.ipynb
+│   ├── 1_model_baseline.ipynb
+│   └── 2_model_advanced.ipynb
+├── src/
+│   ├── preprocessing.py
+│   └── regressors.py
+└── README.md
 ```

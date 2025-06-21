@@ -8,6 +8,8 @@ __pycache__/
 
 # Ignore data files (optional: except a README)
 data/*
+!data/README.md
+!data/download_files.py
 
 # Distribution / packaging
 .Python

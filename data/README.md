@@ -2,7 +2,7 @@
 
 This project uses data from:
 
-## Pantheon+ Supernova Compilation
+### Pantheon+ Supernova Compilation
 
 Dan Scolnic et al 2022 ApJ 938 113
 [DOI : 10.3847/1538-4357/ac8b7a](https://doi.org/10.3847/1538-4357/ac8b7a)
@@ -12,7 +12,7 @@ Dillon Brout et al 2022 ApJ 938 110
 
 ### Data is avaliable at the [Pantheon+SH0ES Github](https://github.com/PantheonPlusSH0ES/DataRelease)
 
-## The Dark Energy Survey Supernova Program
+### The Dark Energy Survey Supernova Program
 
 B. O. Sánchez et al 2024 ApJ 975 5
 [DOI : 10.3847/1538-4357/ad739a](https://doi.org/10.3847/1538-4357/ad739a)
