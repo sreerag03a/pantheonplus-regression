@@ -15,6 +15,6 @@ for filename, url in dwnld_file.items():
     print(f"Downloading {filename}...")
     try:
         urllib.request.urlretrieve(url, save_path)
-        print(f"✓ Saved to {save_path}")
+        print(f"Saved to {save_path}")
     except Exception as e:
-        print(f"✗ Failed to download {filename}:\n{e}")
+        print(f"Failed to download {filename}:\n{e}")

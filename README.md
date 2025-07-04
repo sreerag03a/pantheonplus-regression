@@ -1,12 +1,12 @@
 # pantheonplus-regression
 
-This project applies simple machine learning models - such as **Linear Regression**, **Polynomial Regression**, **Decision Trees** and **Random Forests** to predict the **apparent magnitude(`m_B$`)** of Type Ia supernovae from the observed parameters:
+This project applies simple machine learning models - such as **Linear Regression**, **Polynomial Regression**, **Decision Trees** and **Random Forests** to predict the **apparent magnitude($m_B$)** of Type Ia supernovae from the observed parameters:
 
-- Redshift (`$z$`)
-- Stretch (`$x_1$`)
-- Color (`$c$`)
+- Redshift ($z$)
+- Stretch ($x_1$)
+- Color ($c$)
 
-This project uses publicly available supernova datasets - **Pantheon+** and **DES 5-YEar** supernova compilations.
+This project uses publicly available supernova datasets - **Pantheon+** and **DES 5-YEar** supernova compilations. The instructions to download these datasets are given in **data** folder. Please cite the respective papers if using these datasets in a work.
 
 ## Motivation
 
