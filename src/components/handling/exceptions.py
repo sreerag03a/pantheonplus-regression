@@ -1,6 +1,6 @@
 import sys
 import logging
-import logger
+from src.components.handling import logger
 
 
 

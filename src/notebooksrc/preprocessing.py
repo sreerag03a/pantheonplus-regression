@@ -8,7 +8,7 @@ data_path = os.path.join(BASE_DIR,'data')
 
 
 def preprocess_pantheonp(path1,z = 0): # The input z here is used to filter redshift values less than z
-    data = pd.read_csv(path1, sep = '\s+')
+    data = pd.read_csv(path1, sep = r'\s+')
     data_filtered = data[data['zHD'] > z]
     X = data_filtered[['zHD', 'x1', 'c']]
     y = data_filtered['m_b_corr']

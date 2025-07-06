@@ -11,6 +11,10 @@ data/*
 !data/README.md
 !data/download_files.py
 
+
+#
+outputs/
+
 # Distribution / packaging
 .Python
 build/
