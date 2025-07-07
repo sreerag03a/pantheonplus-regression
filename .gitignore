@@ -6,14 +6,15 @@ __pycache__/
 # C extensions
 *.so
 
-# Ignore data files (optional: except a README)
+# Ignore data files
 data/*
 !data/README.md
 !data/download_files.py
 
 
 #
-outputs/
+outputs/logs
+catboost_info
 
 # Distribution / packaging
 .Python

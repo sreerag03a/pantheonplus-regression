@@ -13,6 +13,9 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.pipeline import Pipeline
 
+
+from src.components.model.model_trainer import ModelConfig, ModelTrainer
+
 #Initial setup
 
 pantheonpath = 'data/Pantheon+SH0ES.dat'
@@ -117,7 +120,7 @@ class DataTransform:
                 filepath = self.data_transform_config.preprocessor_obj_path,
                 obj = preprocessor_obj
             )
-
+            logging.info("Saved preprocessing object in outputs folder")
             return (
                 train_arr,
                 test_arr ,
@@ -135,4 +138,7 @@ if __name__ == "__main__":
 
     data_transformation = DataTransform()
 
-    data_transformation.start_transform(train_data,test_data)
+    train_arr,test_arr,_ = data_transformation.start_transform(train_data,test_data)
+
+    modelTrainer = ModelTrainer()
+    print(modelTrainer.start_trainer(train_arr,test_arr))
