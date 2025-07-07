@@ -49,9 +49,48 @@ class ModelTrainer:
                 "KNeighbours Regressor" : KNeighborsRegressor()
             }
 
+            params ={
+                "Random Forests" : {
+                    'n_estimators' : [10, 50, 100, 250]
+                },
+                'AdaBoost' : {
+
+                    'learning_rate' : [1,0.3,0.1,0.03,0.01,0.003,0.001],
+                    'n_estimators': [10, 50, 100, 250]
+
+                },
+                "Gradient Boost": {
+                    'learning_rate' : [1,0.3,0.1,0.03,0.01,0.003,0.001],
+                    'criterion' : ['squared_error', 'friedman_mse'],
+                    'n_estimators': [10, 50, 100, 250]
+                },
+                "Decision Tree" : {
+                    'criterion' : ['squared_error', 'friedman_mse']
+                },
+                "Linear Regressor" : {},
+                "XGB Regressor" : {
+                    'learning_rate' : [1,0.3,0.1,0.03,0.01,0.003,0.001],
+                    'n_estimators': [10, 50, 100, 250]
+
+                },
+                "CatBoost" : {
+                    'depth' : [6,8,10],
+                    'learning_rate' : [1,0.3,0.1,0.03,0.01,0.003,0.001],
+                    'iterations' : [30,50,100]
+
+                }, 
+                "KNeighbours Regressor" : {
+                    'n_neighbors' : [3,5,7,9,11]
+
+                }
+
+
+
+            }
+
             logging.info("Evaluating all the models...")
 
-            model_report:dict = evaluate_model(X_train= X_train,y_train = y_train,X_test = X_test ,y_test = y_test, models = models,eval_metric=r2_score)
+            model_report:dict = evaluate_model(X_train= X_train,y_train = y_train,X_test = X_test ,y_test = y_test, models = models,eval_metric=r2_score, params = params)
 
             logging.info("Model evaluation complete. Determining best model...")
             best_score = max(sorted(model_report.values()))

@@ -11,9 +11,11 @@ data/*
 !data/README.md
 !data/download_files.py
 
-
 #
-outputs/logs
+outputs/*.csv
+!output/*.pkl
+
+
 catboost_info
 
 # Distribution / packaging
