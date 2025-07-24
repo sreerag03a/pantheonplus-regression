@@ -11,8 +11,9 @@ data/*
 !data/README.md
 !data/download_files.py
 
-#
+#Ignore ouputs
 outputs/*.csv
+outputs/logs
 !output/*.pkl
 
 

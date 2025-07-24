@@ -1,0 +1,43 @@
+<html>
+  <body>
+    <h1>Hello to the predictor</h1>
+    <div class="login">
+       <h1>Supernovae magnitude predictor</h1>
+   
+       <form action="{{ url_for('predict_datapoint')}}" method="post">
+        <h1>
+            <legend>Supernovae magnitude prediction</legend>
+        </h1>
+        <div class="mb-3">
+            <label class="form-label">Enter Redshift</label>
+            <input class="form-control" type="float" name="zHD"
+                placeholder="Enter redshift" min='0' max='3' />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Enter Stretch</label>
+            <input class="form-control" type="float" name="x1"
+                placeholder="Enter stretch (x1)" min='-10' max='10' />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Enter color</label>
+            <input class="form-control" type="float" name="c"
+                placeholder="Enter color (c)" min='0' max='10' />
+        </div>
+        <select class="form-control" name="model">
+    <option value="Best Model" selected>Best Model</option>
+    <option value="Random Forests">Random Forest</option>
+    <option value="AdaBoost">AdaBoost</option>
+    <option value="Gradient Boost">Gradient Boost</option>
+    <option value="Decision Tree">Decision Tree</option>
+    <option value="Linear Regressor">Linear Regressor</option>
+    <option value="XGB Regressor">XGB Regressor</option>
+    <option value="CatBoost">CatBoost</option>
+    <option value="KNeighbours Regressor">KNeighbours Regressor</option>
+</select>
+        <div class="mb-3">
+            <input class="btn btn-primary" type="submit" value="Predict magnitude mB" required />
+        </div>
+    </form>
+    <h2>Prediction is {{results}}</h2>
+  </body>
+</html>

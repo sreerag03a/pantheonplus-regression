@@ -72,7 +72,7 @@ class DataTransform:
 
             num_pipeline = Pipeline(
                 steps=[
-                    ('imputer', SimpleImputer(strategy='median')),
+                    ('imputer', SimpleImputer(strategy='mean')),
                     ('scaler', StandardScaler() )
                 ]
             )        
@@ -141,4 +141,5 @@ if __name__ == "__main__":
     train_arr,test_arr,_ = data_transformation.start_transform(train_data,test_data)
 
     modelTrainer = ModelTrainer()
+    print(modelTrainer.start_trainer(train_arr,test_arr, train_all=True))
     print(modelTrainer.start_trainer(train_arr,test_arr))
