@@ -1,38 +1,38 @@
 <html>
   <body>
-    <h1>Hello to the predictor</h1>
+    <h1>Supernovae magnitude predictor</h1>
     <div class="login">
-       <h1>Supernovae magnitude predictor</h1>
+       
    
        <form action="{{ url_for('predict_datapoint')}}" method="post">
-        <h1>
-            <legend>Supernovae magnitude prediction</legend>
-        </h1>
         <div class="mb-3">
             <label class="form-label">Enter Redshift</label>
             <input class="form-control" type="float" name="zHD"
-                placeholder="Enter redshift" min='0' max='3' />
+                placeholder="Enter redshift" min='0' max='3'
+                value="{{ prev_input.zHD if prev_input and 'zHD' in prev_input else '' }}" />
         </div>
         <div class="mb-3">
             <label class="form-label">Enter Stretch</label>
             <input class="form-control" type="float" name="x1"
-                placeholder="Enter stretch (x1)" min='-10' max='10' />
+                placeholder="Enter stretch (x1)" min='-10' max='10' 
+                value="{{ prev_input.x1 if prev_input and 'x1' in prev_input else '' }}"/>
         </div>
         <div class="mb-3">
             <label class="form-label">Enter color</label>
             <input class="form-control" type="float" name="c"
-                placeholder="Enter color (c)" min='0' max='10' />
+                placeholder="Enter color (c)" min='0' max='10'
+                value="{{ prev_input.c if prev_input and 'c' in prev_input else '' }}" />
         </div>
         <select class="form-control" name="model">
-    <option value="Best Model" selected>Best Model</option>
-    <option value="Random Forests">Random Forest</option>
-    <option value="AdaBoost">AdaBoost</option>
-    <option value="Gradient Boost">Gradient Boost</option>
-    <option value="Decision Tree">Decision Tree</option>
-    <option value="Linear Regressor">Linear Regressor</option>
-    <option value="XGB Regressor">XGB Regressor</option>
-    <option value="CatBoost">CatBoost</option>
-    <option value="KNeighbours Regressor">KNeighbours Regressor</option>
+    <option value="Best Model" {% if prev_input and prev_input.model == 'Best Model' %}selected{% endif %}>Best Model</option>
+    <option value="Random Forests"{% if prev_input and prev_input.model == 'Random Forests' %}selected{% endif %}>Random Forest</option>
+    <option value="AdaBoost"{% if prev_input and prev_input.model == 'AdaBoost' %}selected{% endif %}>AdaBoost</option>
+    <option value="Gradient Boost"{% if prev_input and prev_input.model == 'Gradient Boost' %}selected{% endif %}>Gradient Boost</option>
+    <option value="Decision Tree"{% if prev_input and prev_input.model == 'Decision Tree' %}selected{% endif %}>Decision Tree</option>
+    <option value="Linear Regressor"{% if prev_input and prev_input.model == 'Linear Regressor' %}selected{% endif %}>Linear Regressor</option>
+    <option value="XGB Regressor"{% if prev_input and prev_input.model == 'XGB Regressor' %}selected{% endif %}>XGB Regressor</option>
+    <option value="CatBoost"{% if prev_input and prev_input.model == 'CatBoost' %}selected{% endif %}>CatBoost</option>
+    <option value="KNeighbours Regressor"{% if prev_input and prev_input.model == 'KNeighbours Regressor' %}selected{% endif %}>KNeighbours Regressor</option>
 </select>
         <div class="mb-3">
             <input class="btn btn-primary" type="submit" value="Predict magnitude mB" required />
