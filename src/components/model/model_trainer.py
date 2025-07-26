@@ -16,16 +16,6 @@ from src.components.handling.exceptions import CustomException
 from src.components.handling.logger import logging
 from src.components.handling.utils import save_obj, evaluate_model
 
-models = {
-            "Random Forests" : RandomForestRegressor(),
-            "AdaBoost" : AdaBoostRegressor(),
-            "Gradient Boost": GradientBoostingRegressor(),
-            "Decision Tree" : DecisionTreeRegressor(),
-            "Linear Regressor" : LinearRegression(),
-            "XGB Regressor" : XGBRegressor(),
-            "CatBoost" : CatBoostRegressor(), 
-            "KNeighbours Regressor" : KNeighborsRegressor()
-        }
 
 @dataclass
 class ModelConfig:
@@ -41,6 +31,16 @@ class ModelTrainer:
     
     def start_trainer(self,train_set,test_set, train_all = False):
         os.makedirs(self.model_config.models_config, exist_ok=True)
+        models = {
+            "Random Forests" : RandomForestRegressor(),
+            "AdaBoost" : AdaBoostRegressor(),
+            "Gradient Boost": GradientBoostingRegressor(),
+            "Decision Tree" : DecisionTreeRegressor(),
+            "Linear Regressor" : LinearRegression(),
+            "XGB Regressor" : XGBRegressor(),
+            "CatBoost" : CatBoostRegressor(), 
+            "KNeighbours Regressor" : KNeighborsRegressor()
+        }
         params ={
             "Random Forests" : {
                 'n_estimators' : [10, 50, 100, 250]
@@ -117,7 +117,7 @@ class ModelTrainer:
             except Exception as e:
                 raise CustomException(e,sys)
 
-        if train_all == False:
+        elif train_all == False:
             try:
 
                 logging.info("Evaluating all the models...")

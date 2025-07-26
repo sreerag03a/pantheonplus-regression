@@ -16,7 +16,7 @@ class PredictPipeline:
                 model_path = 'outputs/models/trained_model.pkl'
             else:
                 model_path = f'outputs/models/{selected_model}.pkl'
-            preprocessor_path = 'outputs/preprocessor.pkl'
+            preprocessor_path = 'outputs/models/preprocessor.pkl'
 
             logging.info('Loading model...')
             model = load_obj(model_path)
