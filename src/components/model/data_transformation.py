@@ -59,7 +59,7 @@ class DataIngestion:
         
 @dataclass
 class DataTransformConfig:
-    preprocessor_obj_path = os.path.join('outputs','preprocessor.pkl')
+    preprocessor_obj_path = os.path.join('outputs','models','preprocessor.pkl')
 
 class DataTransform:
 
@@ -142,4 +142,4 @@ if __name__ == "__main__":
 
     modelTrainer = ModelTrainer()
     print(modelTrainer.start_trainer(train_arr,test_arr, train_all=True))
-    print(modelTrainer.start_trainer(train_arr,test_arr))
+    # print(modelTrainer.start_trainer(train_arr,test_arr))

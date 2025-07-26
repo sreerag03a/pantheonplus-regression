@@ -6,6 +6,8 @@ from src.components.handling.exceptions import CustomException
 import dill
 from sklearn.model_selection import GridSearchCV
 from src.components.handling.logger import logging
+import urllib.request
+
 
 def save_obj(filepath,obj):
 
@@ -54,3 +56,21 @@ def load_obj(filepath):
             return dill.load(f)
     except Exception as e:
         raise CustomException(e,sys)
+    
+
+
+def download_data(datadir):
+    dwnld_file = {
+    "Pantheon+SH0ES.dat" : "https://raw.githubusercontent.com/PantheonPlusSH0ES/DataRelease/main/Pantheon%2B_Data/4_DISTANCES_AND_COVAR/Pantheon%2BSH0ES.dat",
+    "DES-data.csv" : "https://raw.githubusercontent.com/des-science/DES-SN5YR/main/4_DISTANCES_COVMAT/DES-SN5YR_HD%2BMetaData.csv"
+
+    }
+    for filename, url in dwnld_file.items():
+        save_path = os.path.join(datadir, filename)
+
+        logging.info(f"Downloading {filename}...")
+        try:
+            urllib.request.urlretrieve(url, save_path)
+            logging.info(f"Saved to {save_path}")
+        except Exception as e:
+            raise CustomException(e,sys)

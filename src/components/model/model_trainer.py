@@ -37,9 +37,10 @@ class ModelTrainer:
 
     def __init__(self):
         self.model_config = ModelConfig()
-
+    
     
     def start_trainer(self,train_set,test_set, train_all = False):
+        os.makedirs(self.model_config.models_config, exist_ok=True)
         params ={
             "Random Forests" : {
                 'n_estimators' : [10, 50, 100, 250]

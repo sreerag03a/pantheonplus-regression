@@ -25,4 +25,4 @@ DES Collaboration: T. M. C. Abbott et al 2024 ApJL 973 L14
 
 ### Data is available at the [DES Github](https://github.com/des-science/DES-SN5YR)
 
-Alternatively, you can run the download_files.py to download the dataset.
+Alternatively, you can run the project_stage.py to download the dataset.
