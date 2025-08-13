@@ -8,8 +8,12 @@ from sklearn.model_selection import GridSearchCV
 from src.components.handling.logger import logging
 import urllib.request
 
+'''
+Different utility functions used throughout the project
+'''
 
 def save_obj(filepath,obj):
+    # To pickle models or fitted preprocessor
 
     try:
         dir_path = os.path.dirname(filepath)
@@ -22,7 +26,7 @@ def save_obj(filepath,obj):
         raise CustomException(e,sys)
     
 def evaluate_model(X_train,y_train,X_test,y_test,models,eval_metric, params):
-
+    #To tune different models based on eval_metric
     try:
         report = {}
         for i in range(len(list(models))):
@@ -42,7 +46,6 @@ def evaluate_model(X_train,y_train,X_test,y_test,models,eval_metric, params):
             y_preds = model.predict(X_test)
 
             model_score = eval_metric(y_test,y_preds)
-            # model_score = [j(y_test,y_preds) for j in eval_metric]
 
             report[list(models.keys())[i]] = model_score
         return report
@@ -51,6 +54,7 @@ def evaluate_model(X_train,y_train,X_test,y_test,models,eval_metric, params):
         raise CustomException(e,sys)
     
 def load_obj(filepath):
+    #Load pickled object
     try:
         with open(filepath, "rb") as f:
             return dill.load(f)
@@ -60,6 +64,7 @@ def load_obj(filepath):
 
 
 def download_data(datadir):
+    # Download the required Pantheon+ and DES data
     dwnld_file = {
     "Pantheon+SH0ES.dat" : "https://raw.githubusercontent.com/PantheonPlusSH0ES/DataRelease/main/Pantheon%2B_Data/4_DISTANCES_AND_COVAR/Pantheon%2BSH0ES.dat",
     "DES-data.csv" : "https://raw.githubusercontent.com/des-science/DES-SN5YR/main/4_DISTANCES_COVMAT/DES-SN5YR_HD%2BMetaData.csv"

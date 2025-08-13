@@ -13,10 +13,10 @@ class PredictPipeline:
     def predictmB(self,features,selected_model = None):
         try:
             if selected_model == 'Best Model':
-                model_path = 'outputs/models/trained_model.pkl'
+                model_path = 'outputs/models/trained_model.pkl' 
             else:
-                model_path = f'outputs/models/{selected_model}.pkl'
-            preprocessor_path = 'outputs/models/preprocessor.pkl'
+                model_path = f'outputs/models/{selected_model}.pkl' # Path that the models are pickled when staging app
+            preprocessor_path = 'outputs/models/preprocessor.pkl' # Path that the preprocessor is pickled when staging app
 
             logging.info('Loading model...')
             model = load_obj(model_path)
@@ -37,7 +37,7 @@ class CustomData:
         self.zHD = zHD
         self.x1 = x1
         self.c = c
-
+# To convert the values obtained from the html form to a dataframe
     def get_dataframe(self):
         try:
             data_dict = {

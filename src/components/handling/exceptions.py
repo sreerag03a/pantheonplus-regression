@@ -2,7 +2,12 @@ import sys
 import logging
 from src.components.handling import logger
 
+'''
+Exception handing
 
+
+Handles and logs errors
+'''
 
 def error_message_details(error, error_det:sys):
     _,_,exc_tb = error_det.exc_info()

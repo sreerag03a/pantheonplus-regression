@@ -10,7 +10,7 @@ import numpy as np
 
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.preprocessing import OneHotEncoder, StandardScaler, FunctionTransformer
 from sklearn.pipeline import Pipeline
 
 
@@ -28,11 +28,19 @@ class DataConfig:
     original_data_path:str = os.path.join('outputs','ogdata.csv')
 
 class DataIngestion:
-    def __init__(self,split_ratio):
+    def __init__(self,split_ratio): 
+        '''
+        Split ratio - put value between 0 and 1 - This will be the ratio the training and testing data will be split into
+        If split ratio is given as 0.3 - The data will be split 70:30 into training and testing sets
+        
+        '''
         self.ingest_conf = DataConfig()
         self.split_ratio = split_ratio
-    
+        
     def start_ingest(self):
+        '''
+        This is where the data is split into sets and then saved into different files
+        '''
         logging.info("Data Ingestion started")
         try:
             df = pd.read_csv(pantheonpath, sep = r'\s+')
@@ -63,12 +71,19 @@ class DataTransformConfig:
 
 class DataTransform:
 
+    '''
+    This is where the data is preprocessed. Here, the redshift is transformed with a logarithm,
+    and other inputs and imputed and scaled.
+    
+    '''
     def __init__(self):
         self.data_transform_config = DataTransformConfig()
     
     def get_transformer_obj(self):
         try:
-            columns = ["zHD","x1","c"]
+            other_columns = ["x1","c"]
+
+            log_transformer = FunctionTransformer(func= lambda x: np.log10(x))
 
             num_pipeline = Pipeline(
                 steps=[
@@ -78,7 +93,8 @@ class DataTransform:
             )        
             prerprocessor = ColumnTransformer(
                 [
-                ("num_pipeline",num_pipeline, columns)
+                ("num_pipeline",num_pipeline, other_columns),
+                ("log_transformer", log_transformer,['zHD'])
                 ]
             )
             logging.info("Numerical values Imputed and Standard Scaled")
@@ -131,15 +147,3 @@ class DataTransform:
         except Exception as e:
             logging.info("Error occured in transformation/preprocessing")
             raise CustomException(e,sys)
-
-if __name__ == "__main__":
-    obj = DataIngestion(0.3)
-    train_data,test_data = obj.start_ingest()
-
-    data_transformation = DataTransform()
-
-    train_arr,test_arr,_ = data_transformation.start_transform(train_data,test_data)
-
-    modelTrainer = ModelTrainer()
-    print(modelTrainer.start_trainer(train_arr,test_arr, train_all=True))
-    # print(modelTrainer.start_trainer(train_arr,test_arr))

@@ -4,22 +4,22 @@
     <div class="login">
        
    
-       <form action="{{ url_for('predict_datapoint')}}" method="post">
+       <form action="{{ url_for('predict_datapoint')}}" method="post", enctype="multipart/form-data">
         <div class="mb-3">
             <label class="form-label">Enter Redshift</label>
-            <input class="form-control" type="float" name="zHD"
+            <input class="form-control" type="number" step = "any" name="zHD"
                 placeholder="Enter redshift" min='0' max='3'
                 value="{{ prev_input.zHD if prev_input and 'zHD' in prev_input else '' }}" />
         </div>
         <div class="mb-3">
             <label class="form-label">Enter Stretch</label>
-            <input class="form-control" type="float" name="x1"
+            <input class="form-control" type="number" step = "any" name="x1"
                 placeholder="Enter stretch (x1)" min='-10' max='10' 
                 value="{{ prev_input.x1 if prev_input and 'x1' in prev_input else '' }}"/>
         </div>
         <div class="mb-3">
             <label class="form-label">Enter color</label>
-            <input class="form-control" type="float" name="c"
+            <input class="form-control" type="number" step = "any" name="c"
                 placeholder="Enter color (c)" min='0' max='10'
                 value="{{ prev_input.c if prev_input and 'c' in prev_input else '' }}" />
         </div>
@@ -34,10 +34,20 @@
     <option value="CatBoost"{% if prev_input and prev_input.model == 'CatBoost' %}selected{% endif %}>CatBoost</option>
     <option value="KNeighbours Regressor"{% if prev_input and prev_input.model == 'KNeighbours Regressor' %}selected{% endif %}>KNeighbours Regressor</option>
 </select>
-        <div class="mb-3">
+<h1>OR</h1>
+
+
+    
+
+            <fieldset>
+            <legend>🔹 Batch Prediction</legend>
+            <input type="file" name="file" accept=".csv">
+            <p>CSV format: z,x1,c in columns</p>
+        </fieldset>
+                <div class="mb-3">
             <input class="btn btn-primary" type="submit" value="Predict magnitude mB" required />
         </div>
-    </form>
-    <h2>Prediction is {{results}}</h2>
+        </form>
+<h2>Prediction is {{results}}</h2>
   </body>
 </html>

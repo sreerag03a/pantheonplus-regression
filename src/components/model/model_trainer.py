@@ -28,7 +28,11 @@ class ModelTrainer:
     def __init__(self):
         self.model_config = ModelConfig()
     
-    
+    '''
+    Training of models and hyperparameter tuning to find the best performing model.
+
+    The best model found is pickled by default - We can tune all models and pickle them as well - Both are done in project_stage.py.
+    '''
     def start_trainer(self,train_set,test_set, train_all = False):
         os.makedirs(self.model_config.models_config, exist_ok=True)
         models = {
