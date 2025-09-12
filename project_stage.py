@@ -3,9 +3,10 @@ from src.components.handling.exceptions import CustomException
 from src.components.handling.utils import download_data
 
 from src.components.model.data_transformation import DataIngestion, DataTransform
-from src.components.model.model_trainer import ModelTrainer
+from src.components.model.model_trainer import ModelTrainer, AdvancedModelTrainer
 import os
 import sys
+import numpy as np
 
 
 DATA_DIR = os.path.join(os.getcwd(),"data")
@@ -21,14 +22,23 @@ if __name__ == "__main__":
         logging.info(mess1)
         print(mess1)
         obj = DataIngestion(0.3)
-        train_data,test_data = obj.start_ingest()
+        train_data,test_data = obj.start_ingest_advanced()
 
         data_transformation = DataTransform()
 
         train_arr,test_arr,_ = data_transformation.start_transform(train_data,test_data)
+        print(train_arr.shape)
 
         modelTrainer1 = ModelTrainer()
         modelTrainer2 = ModelTrainer()
+
+        advmodel1 = AdvancedModelTrainer()
+        advmodel2 = AdvancedModelTrainer()
+        cvm = np.diag(obj.C_train)
+        print(cvm.shape)
+
+        advmodel1.start_trainer(train_arr,test_arr,covmatrix=cvm,train_all=True)
+        advmodel2.start_trainer(train_arr,test_arr,covmatrix=cvm,train_all=False)
 
         modelTrainer1.start_trainer(train_arr,test_arr, train_all=True)
         logging.info("Trained all models with hyperparameters tuned")

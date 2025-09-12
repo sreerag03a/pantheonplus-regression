@@ -53,6 +53,26 @@ def evaluate_model(X_train,y_train,X_test,y_test,models,eval_metric, params):
     except Exception as e:
         raise CustomException(e,sys)
     
+def train_model(X_train,y_train,X_test,y_test,models,eval_metric):
+    #To tune different models based on eval_metric
+    try:
+        report = {}
+        for i in range(len(list(models))):
+            logging.info('Evaluating {}'.format(list(models.keys())[i]))
+            model = list(models.values())[i]
+
+            model.fit(X_train,y_train)
+
+            y_preds = model.predict(X_test)
+
+            model_score = eval_metric(y_test,y_preds)
+
+            report[list(models.keys())[i]] = model_score
+        return report
+    
+    except Exception as e:
+        raise CustomException(e,sys)
+    
 def load_obj(filepath):
     #Load pickled object
     try:
@@ -67,7 +87,8 @@ def download_data(datadir):
     # Download the required Pantheon+ and DES data
     dwnld_file = {
     "Pantheon+SH0ES.dat" : "https://raw.githubusercontent.com/PantheonPlusSH0ES/DataRelease/main/Pantheon%2B_Data/4_DISTANCES_AND_COVAR/Pantheon%2BSH0ES.dat",
-    "DES-data.csv" : "https://raw.githubusercontent.com/des-science/DES-SN5YR/main/4_DISTANCES_COVMAT/DES-SN5YR_HD%2BMetaData.csv"
+    "DES-data.csv" : "https://raw.githubusercontent.com/des-science/DES-SN5YR/main/4_DISTANCES_COVMAT/DES-SN5YR_HD%2BMetaData.csv",
+    "Pantheon+SH0ES_STAT+SYS.cov": "https://raw.githubusercontent.com/PantheonPlusSH0ES/DataRelease/refs/heads/main/Pantheon%2B_Data/4_DISTANCES_AND_COVAR/Pantheon%2BSH0ES_STAT%2BSYS.cov"
 
     }
     for filename, url in dwnld_file.items():

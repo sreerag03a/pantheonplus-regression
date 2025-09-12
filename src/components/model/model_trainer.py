@@ -4,8 +4,10 @@ import sys
 from dataclasses import dataclass
 
 from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor, GradientBoostingRegressor
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression,BayesianRidge
 from sklearn.metrics import r2_score, mean_absolute_error,root_mean_squared_error
+from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.gaussian_process.kernels import RBF, Matern, WhiteKernel
 from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.neighbors import KNeighborsRegressor
@@ -14,7 +16,7 @@ from catboost import CatBoostRegressor
 
 from src.components.handling.exceptions import CustomException
 from src.components.handling.logger import logging
-from src.components.handling.utils import save_obj, evaluate_model
+from src.components.handling.utils import save_obj, evaluate_model,train_model
 
 
 @dataclass
@@ -154,5 +156,91 @@ class ModelTrainer:
                 raise CustomException(e,sys)
 
 
+@dataclass
+class AdvancedModelConfig:
+    models_config = os.path.join('outputs','models','advanced_models')
+    trained_model_path = os.path.join('outputs','models','advanced_models','trained_advanced_model.pkl')
 
 
+class AdvancedModelTrainer:
+    '''
+    Training for advanced models incorporating uncertainty approximation techniques. Models are trained and saved separately.
+    Since we are passing in the measurement errors for this evaluation, we won't be using Grid Search Cross Validation to tune hyperparameters.
+    
+    
+    ## Maybe Implement a self made solution in the future
+
+    '''
+
+    def __init__(self):
+        self.model_config = AdvancedModelConfig()
+        self.kernel = RBF(length_scale=1.0)
+
+    def start_trainer(self,train_set,test_set,covmatrix=0,train_all=False):
+        os.makedirs(self.model_config.models_config, exist_ok=True)
+        advanced_models={"Gaussian Process Regressor" : GaussianProcessRegressor(
+                        kernel=self.kernel,copy_X_train=True,normalize_y=True,alpha=covmatrix),
+                         "Bayesian Ridge Regressior": BayesianRidge(copy_X=True)}
+        models_path = os.path.join(self.model_config.models_config)
+        try:
+            logging.info("Initializing train and test sets")
+            X_train,y_train,X_test,y_test = (
+                train_set[:,:-1],
+                train_set[:,-1],
+                test_set[:,:-1],
+                test_set[:,-1]
+            )
+            logging.info(f'{X_train.shape},{y_train.shape}')
+        except Exception as e:
+            raise CustomException(e,sys)
+        if train_all == True:
+            try:
+                for i in range(len(list(advanced_models))):
+                    logging.info('Evaluating {}'.format(list(advanced_models.keys())[i]))
+                    model = list(advanced_models.values())[i]
+                    model.fit(X_train,y_train)
+    
+                    model_path = os.path.join(models_path,f'{list(advanced_models.keys())[i]}.pkl')
+                    logging.info('Completed Hyperparameter tuning of model {}.'.format(list(advanced_models.keys())[i]))
+                    save_obj(
+                    filepath= model_path,
+                    obj=model
+                    )
+                    logging.info('Saved model in {}'.format(model_path))
+                
+                
+                return 'completed'
+
+            except Exception as e:
+                raise CustomException(e,sys)
+        elif train_all == False:
+            try:
+
+                logging.info("Evaluating all the models...")
+
+                model_report:dict = train_model(X_train= X_train,y_train = y_train,X_test = X_test ,y_test = y_test, models = advanced_models,eval_metric=r2_score)
+
+                logging.info("Model evaluation complete. Determining best model...")
+                best_score = max(sorted(model_report.values()))
+
+                if best_score < 0.6 :
+                    raise CustomException("No model is good enough for this data.")
+                
+                logging.info("Best model found.")
+
+
+                best_model_name = list(model_report.keys())[list(model_report.values()).index(best_score)]
+
+                logging.info("Best model is {} with score {}, saving it to {}".format(best_model_name, best_score, self.model_config.trained_model_path))
+                best_model = advanced_models[best_model_name]
+                save_obj(
+                    filepath= self.model_config.trained_model_path,
+                    obj=best_model
+
+                )
+                return best_model_name
+
+
+
+            except Exception as e:
+                raise CustomException(e,sys)
