@@ -46,30 +46,6 @@ class DataIngestion:
         logging.info("Data Ingestion started")
         try:
             df = pd.read_csv(pantheonpath, sep = r'\s+')
-            logging.info('Successfully ingested data as a Dataframe')
-
-            os.makedirs(os.path.dirname(self.ingest_conf.train_data_path), exist_ok= True)
-            nrow,ncol = df.shape
-            df.to_csv(self.ingest_conf.original_data_path, index=False,header=True)
-            logging.info("Train test split initiated - Splitting {} datapoints into {} training points and {} test points".format(nrow,round((1-self.split_ratio)*nrow),round(self.split_ratio*nrow)))
-            
-            train_set,test_set = train_test_split(df,test_size= self.split_ratio, random_state=76)
-
-            train_set.to_csv(self.ingest_conf.train_data_path, index=False,header=True)
-            test_set.to_csv(self.ingest_conf.test_data_path, index=False,header=True)
-
-            logging.info("Data successfully train-test split")
-
-            return (
-                self.ingest_conf.train_data_path,
-                self.ingest_conf.test_data_path
-            )
-        except Exception as e:
-            raise CustomException(e,sys)
-    def start_ingest_advanced(self):
-        logging.info("Data Ingestion started")
-        try:
-            df = pd.read_csv(pantheonpath, sep = r'\s+')
             with open(covariancepath) as f:
                 N=int(f.readline().strip())
                 covmatrix=np.fromfile(f,sep=" ")
@@ -183,5 +159,3 @@ class DataTransform:
         except Exception as e:
             logging.info("Error occured in transformation/preprocessing")
             raise CustomException(e,sys)
-if __name__ == '__main__':
-    a=10

@@ -22,7 +22,7 @@ if __name__ == "__main__":
         logging.info(mess1)
         print(mess1)
         obj = DataIngestion(0.3)
-        train_data,test_data = obj.start_ingest_advanced()
+        train_data,test_data = obj.start_ingest()
 
         data_transformation = DataTransform()
 

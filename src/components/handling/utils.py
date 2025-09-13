@@ -54,7 +54,6 @@ def evaluate_model(X_train,y_train,X_test,y_test,models,eval_metric, params):
         raise CustomException(e,sys)
     
 def train_model(X_train,y_train,X_test,y_test,models,eval_metric):
-    #To tune different models based on eval_metric
     try:
         report = {}
         for i in range(len(list(models))):

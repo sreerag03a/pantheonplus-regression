@@ -31,6 +31,27 @@ class PredictPipeline:
             return res
         except Exception as e:
             raise CustomException(e,sys)
+    def predictmBwitherr(self,features,selected_model = None):
+        try:
+            if selected_model == 'Best Model':
+                model_path = 'outputs/models/advanced_models/trained_advanced_model.pkl' 
+            else:
+                model_path = f'outputs/models/advanced_models/{selected_model}.pkl' # Path that the models are pickled when staging app
+            preprocessor_path = 'outputs/models/preprocessor.pkl' # Path that the preprocessor is pickled when staging app
+
+            logging.info('Loading model...')
+            model = load_obj(model_path)
+
+            logging.info('Loading preprocessor for data...')
+            preprocessor = load_obj(preprocessor_path)
+
+            logging.info('Attempting preprocessor')
+            data_scaled = preprocessor.transform(features)
+            logging.info('Completed preprocessing - {}'.format(data_scaled))
+            res = model.predict(data_scaled,return_std=True)
+            return res
+        except Exception as e:
+            raise CustomException(e,sys)
 
 class CustomData:
     def __init__(self, zHD:float, x1:float, c: float):

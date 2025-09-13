@@ -174,13 +174,17 @@ class AdvancedModelTrainer:
 
     def __init__(self):
         self.model_config = AdvancedModelConfig()
-        self.kernel = RBF(length_scale=1.0)
+
 
     def start_trainer(self,train_set,test_set,covmatrix=0,train_all=False):
         os.makedirs(self.model_config.models_config, exist_ok=True)
-        advanced_models={"Gaussian Process Regressor" : GaussianProcessRegressor(
-                        kernel=self.kernel,copy_X_train=True,normalize_y=True,alpha=covmatrix),
-                         "Bayesian Ridge Regressior": BayesianRidge(copy_X=True)}
+        advanced_models={"Gaussian Process Regressor 1" : GaussianProcessRegressor(
+                        kernel=RBF(length_scale=1.0),copy_X_train=True,normalize_y=True,alpha=covmatrix),
+                        "Gaussian Process Regressor 2" : GaussianProcessRegressor(
+                        kernel=Matern(nu=1.5,length_scale=1.0),copy_X_train=True,normalize_y=True,alpha=covmatrix),
+                        "Gaussian Process Regressor 3" : GaussianProcessRegressor(
+                        kernel=WhiteKernel(noise_level=1.0),copy_X_train=True,normalize_y=True,alpha=covmatrix),
+                        "Bayesian Ridge Regressor": BayesianRidge(copy_X=True)}
         models_path = os.path.join(self.model_config.models_config)
         try:
             logging.info("Initializing train and test sets")
