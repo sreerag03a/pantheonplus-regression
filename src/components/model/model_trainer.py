@@ -2,6 +2,7 @@ import numpy as np
 import os
 import sys
 from dataclasses import dataclass
+import json
 
 from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor, GradientBoostingRegressor
 from sklearn.linear_model import LinearRegression,BayesianRidge
@@ -23,6 +24,7 @@ from src.components.handling.utils import save_obj, evaluate_model,train_model
 class ModelConfig:
     models_config = os.path.join('outputs','models')
     trained_model_path = os.path.join('outputs','models','trained_model.pkl')
+    model_scores_path =os.path.join('outputs','models','model_scores.json')
 
 
 class ModelTrainer:
@@ -95,12 +97,17 @@ class ModelTrainer:
             raise CustomException(e,sys)
         if train_all == True:
             try:
+                scores = {}
                 for i in range(len(list(models))):
                     logging.info('Evaluating {}'.format(list(models.keys())[i]))
                     model = list(models.values())[i]
-
-                    param = params[list(models.keys())[i]]
-
+                    
+                    modelname = list(models.keys())[i]
+                    param = params[modelname]
+                    
+                    if modelname not in scores:
+                        scores[modelname] = {}
+                    
                     gs = GridSearchCV(model, param, cv = 3)
 
                     gs.fit(X_train, y_train)
@@ -108,6 +115,17 @@ class ModelTrainer:
 
                     model.set_params(**gs.best_params_)
                     model.fit(X_train,y_train)
+
+                    ypreds =  model.predict(X_test)
+                    mae = mean_absolute_error(y_test,ypreds)
+                    rmse = root_mean_squared_error(y_test,ypreds)
+                    r2score = r2_score(y_test,ypreds)
+                    modelscores = {
+                        'MAE':mae,
+                        'RMSE':rmse,
+                        'R_2 score': r2score
+                    }
+                    scores[modelname] = modelscores
     
                     model_path = os.path.join(models_path,f'{list(models.keys())[i]}.pkl')
                     logging.info('Completed Hyperparameter tuning of model {}.'.format(list(models.keys())[i]))
@@ -117,7 +135,8 @@ class ModelTrainer:
                     )
                     logging.info('Saved model in {}'.format(model_path))
                 
-                
+                with open(self.model_config.model_scores_path,'w') as f:
+                    json.dump(scores,f, indent = 4)
                 return 'completed'
 
             except Exception as e:
@@ -160,6 +179,7 @@ class ModelTrainer:
 class AdvancedModelConfig:
     models_config = os.path.join('outputs','models','advanced_models')
     trained_model_path = os.path.join('outputs','models','advanced_models','trained_advanced_model.pkl')
+    model_scores_path =os.path.join('outputs','models','advanced_models','model_scores.json')
 
 
 class AdvancedModelTrainer:
@@ -178,11 +198,11 @@ class AdvancedModelTrainer:
 
     def start_trainer(self,train_set,test_set,covmatrix=0,train_all=False):
         os.makedirs(self.model_config.models_config, exist_ok=True)
-        advanced_models={"Gaussian Process Regressor 1" : GaussianProcessRegressor(
+        advanced_models={"Gaussian Process Regressor with RBF kernel" : GaussianProcessRegressor(
                         kernel=RBF(length_scale=1.0),copy_X_train=True,normalize_y=True,alpha=covmatrix),
-                        "Gaussian Process Regressor 2" : GaussianProcessRegressor(
+                        "Gaussian Process Regressor with Matern kernel" : GaussianProcessRegressor(
                         kernel=Matern(nu=1.5,length_scale=1.0),copy_X_train=True,normalize_y=True,alpha=covmatrix),
-                        "Gaussian Process Regressor 3" : GaussianProcessRegressor(
+                        "Gaussian Process Regressor with WhiteKernel" : GaussianProcessRegressor(
                         kernel=WhiteKernel(noise_level=1.0),copy_X_train=True,normalize_y=True,alpha=covmatrix),
                         "Bayesian Ridge Regressor": BayesianRidge(copy_X=True)}
         models_path = os.path.join(self.model_config.models_config)
@@ -199,20 +219,36 @@ class AdvancedModelTrainer:
             raise CustomException(e,sys)
         if train_all == True:
             try:
+                scores = {}
                 for i in range(len(list(advanced_models))):
                     logging.info('Evaluating {}'.format(list(advanced_models.keys())[i]))
                     model = list(advanced_models.values())[i]
                     model.fit(X_train,y_train)
+
+                    modelname = list(advanced_models.keys())[i]
+                    ypreds =  model.predict(X_test)
+                    if modelname not in scores:
+                        scores[modelname] = {}
+                    mae = mean_absolute_error(y_test,ypreds)
+                    rmse = root_mean_squared_error(y_test,ypreds)
+                    r2score = r2_score(y_test,ypreds)
+                    modelscores = {
+                        'MAE':mae,
+                        'RMSE':rmse,
+                        'R_2 score': r2score
+                    }
+                    scores[modelname] = modelscores
     
                     model_path = os.path.join(models_path,f'{list(advanced_models.keys())[i]}.pkl')
-                    logging.info('Completed Hyperparameter tuning of model {}.'.format(list(advanced_models.keys())[i]))
+                    logging.info('Completed training of model {}.'.format(list(advanced_models.keys())[i]))
                     save_obj(
                     filepath= model_path,
                     obj=model
                     )
                     logging.info('Saved model in {}'.format(model_path))
                 
-                
+                with open(self.model_config.model_scores_path,'w') as f:
+                    json.dump(scores,f, indent = 4)
                 return 'completed'
 
             except Exception as e:

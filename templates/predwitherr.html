@@ -25,9 +25,9 @@
         </div>
         <select class="form-control" name="model">
     <option value="Best Model" {% if prev_input and prev_input.model == 'Best Model' %}selected{% endif %}>Best Model</option>
-    <option value="Gaussian Process Regressor 1"{% if prev_input and prev_input.model == 'Gaussian Process Regressor 1' %}selected{% endif %}>Gaussian Process Regressor 1</option>
-    <option value="Gaussian Process Regressor 2"{% if prev_input and prev_input.model == 'Gaussian Process Regressor 2' %}selected{% endif %}>Gaussian Process Regressor 2</option>
-    <option value="Gaussian Process Regressor 3"{% if prev_input and prev_input.model == 'Gaussian Process Regressor 3' %}selected{% endif %}>Gaussian Process Regressor 3</option>
+    <option value="Gaussian Process Regressor with RBF kernel"{% if prev_input and prev_input.model == 'Gaussian Process Regressor with RBF kernel' %}selected{% endif %}>Gaussian Process Regressor with RBF kernel</option>
+    <option value="Gaussian Process Regressor with Matern kernel"{% if prev_input and prev_input.model == 'Gaussian Process Regressor with Matern kernel' %}selected{% endif %}>Gaussian Process Regressor with Matern kernel</option>
+    <option value="Gaussian Process Regressor with WhiteKernel"{% if prev_input and prev_input.model == 'Gaussian Process Regressor with WhiteKernel' %}selected{% endif %}>Gaussian Process Regressor with WhiteKernel</option>
     <option value="Bayesian Ridge Regressor"{% if prev_input and prev_input.model == 'Bayesian Ridge Regressor' %}selected{% endif %}>Bayesian Ridge Regressor</option>
 
 </select>
@@ -45,6 +45,10 @@
             <input class="btn btn-primary" type="submit" value="Predict magnitude mB" required />
         </div>
         </form>
-<h2>Prediction is {{results[0][0]}} &plusmn; {{results[1][0]}}</h2>
+{% if results %}
+  <h2>Prediction is {{ results[0][0] }} &plusmn; {{ results[1][0] }}</h2>
+{% else %}
+  <h2>No prediction results yet.</h2>
+{% endif %}
   </body>
 </html>

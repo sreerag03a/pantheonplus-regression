@@ -64,7 +64,6 @@ class DataIngestion:
 
             train_set.to_csv(self.ingest_conf.train_data_path, index=False,header=True)
             test_set.to_csv(self.ingest_conf.test_data_path, index=False,header=True)
-            logging.info('Done 1')
             C_train = covmatrix[np.ix_(train_index,train_index)]
             C_test = covmatrix[np.ix_(test_index,test_index)]
             self.C_train = C_train
@@ -103,7 +102,7 @@ class DataTransform:
                     ('scaler', StandardScaler() )
                 ]
             )        
-            prerprocessor = ColumnTransformer(
+            preprocessor = ColumnTransformer(
                 [
                 ("num_pipeline",num_pipeline, other_columns),
                 ("log_transformer", log_transformer,['zHD'])
@@ -111,7 +110,7 @@ class DataTransform:
             )
             logging.info("Numerical values Imputed and Standard Scaled")
 
-            return prerprocessor
+            return preprocessor
         except Exception as e:
             raise CustomException(e,sys)
         

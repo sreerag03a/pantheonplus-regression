@@ -12,11 +12,48 @@ This project uses publicly available supernova datasets - **Pantheon+** and **DE
 
 Type Ia supernova are standardizable candles used to measure cosmic distances. Here, we train regression models to predict the corrected/standardized apparent magnitudes of Type Ia supernovae from the redshift, stretch and color of the supernovae.
 
-## Instructions
+## Installation Instructions
+
+Open a terminal/command line in your desired folder and run these commands :
+
+```
+git clone https://github.com/sreerag03a/pantheonplus-regression.git
+cd pantheonplus-regression
+pip install -r requirements.txt
+
+```
+
+Now, to just get the flask app running, it is recommended to run project_stage.py
 
 Run project_stage.py to download the data and train the models for use.
 
+```
+python project_stage.py
+```
+
 Then you can run app.py and access 127.0.0.1:5000 for a simple website that can predict type Ia supernova magnitudes from input.
+
+### Models
+
+1. Random Forests Regressor
+2. AdaBoost Regressor
+3. Gradient Boost Regressor
+4. Decision Tree Regressor
+5. Linear Regression
+6. XGB Regressor
+7. CatBoost Regressor
+8. K Neighbours Regressor
+
+#### Models giving uncertainty estimates
+
+1. Gaussian Process Regressor (with different kernel functions - RBF, Matern, WhiteKernel)
+2. Bayesian Ridge Regressor
+
+### Evaluation Metrics
+
+1. Mean Absolute Error
+2. Root Mean Squared Error
+3. $R^2$ score
 
 ## Project Structure
 
