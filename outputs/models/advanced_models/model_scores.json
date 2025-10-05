@@ -1,0 +1,22 @@
+{
+    "Gaussian Process Regressor with RBF kernel": {
+        "MAE": 0.13509816290764884,
+        "RMSE": 0.18982949968079182,
+        "R_2 score": 0.9967673130451411
+    },
+    "Gaussian Process Regressor with Matern kernel": {
+        "MAE": 0.12973462751862774,
+        "RMSE": 0.18974073225276236,
+        "R_2 score": 0.9967703356545257
+    },
+    "Gaussian Process Regressor with WhiteKernel": {
+        "MAE": 2.97224530839185,
+        "RMSE": 3.338735120444501,
+        "R_2 score": -4.0422155733743637e-07
+    },
+    "Bayesian Ridge Regressor": {
+        "MAE": 0.15211928180542317,
+        "RMSE": 0.21465713647508577,
+        "R_2 score": 0.995866414666275
+    }
+}

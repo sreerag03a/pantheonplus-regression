@@ -7,7 +7,8 @@ import dill
 from sklearn.model_selection import GridSearchCV
 from src.components.handling.logger import logging
 import urllib.request
-
+import matplotlib.pyplot as plt
+import json
 '''
 Different utility functions used throughout the project
 '''
@@ -99,3 +100,48 @@ def download_data(datadir):
             logging.info(f"Saved to {save_path}")
         except Exception as e:
             raise CustomException(e,sys)
+        
+def metrics_img():
+    with open("outputs/models/model_scores.json", "r") as f:
+        scores = json.load(f)
+
+    with open("outputs/models/advanced_models/model_scores.json", "r") as g:
+        scores_adv = json.load(g)
+
+    df = pd.DataFrame(scores).T.round(4)
+    df2 = pd.DataFrame(scores_adv).T.round(4)
+
+
+    fig, ax = plt.subplots(figsize=(15, 4))
+    ax.axis("off")
+    table = ax.table(
+        cellText=df.values,
+        colLabels=df.columns,
+        rowLabels=df.index,
+        loc="center",
+        cellLoc="center"
+    )
+
+    table.auto_set_font_size(False)
+    table.set_fontsize(9)
+    table.scale(1, 1)  
+
+    # Saving model scores table as image
+    plt.savefig("outputs/metrics.png", dpi=300, bbox_inches="tight")
+
+    fig, ax = plt.subplots(figsize=(15, 4))
+    ax.axis("off")
+    table = ax.table(
+        cellText=df2.values,
+        colLabels=df2.columns,
+        rowLabels=df2.index,
+        loc="center",
+        cellLoc="center"
+    )
+
+    table.auto_set_font_size(False)
+    table.set_fontsize(9)
+    table.scale(1, 1)  
+
+    # Saving model scores table as image
+    plt.savefig("outputs/metrics2.png", dpi=300, bbox_inches="tight")

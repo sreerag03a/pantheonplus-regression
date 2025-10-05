@@ -12,7 +12,9 @@ data/*
 
 #Ignore ouputs
 outputs/*
-outputs/models
+!outputs/models
+!outputs/metrics.png
+!outputs/metrics2.png
 
 
 catboost_info

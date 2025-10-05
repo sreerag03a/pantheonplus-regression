@@ -1,6 +1,6 @@
 from src.components.handling.logger import logging
 from src.components.handling.exceptions import CustomException  
-from src.components.handling.utils import download_data
+from src.components.handling.utils import download_data,metrics_img
 
 from src.components.model.data_transformation import DataIngestion, DataTransform
 from src.components.model.model_trainer import ModelTrainer, AdvancedModelTrainer
@@ -46,6 +46,8 @@ if __name__ == "__main__":
         modelTrainer2.start_trainer(train_arr,test_arr, train_all=False)
 
         logging.info("Best model found and hyperparameters tuned - Saved as trained_model.py")
+
+        metrics_img()
 
         print("The project was prepared successfully - You can now run app.py and access 127.0.0.1:5000 to predict the apparent magnitude of Supernovae from input")
 

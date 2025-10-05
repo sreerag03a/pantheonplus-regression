@@ -23,6 +23,7 @@
                 placeholder="Enter color (c)" min='0' max='10'
                 value="{{ prev_input.c if prev_input and 'c' in prev_input else '' }}" />
         </div>
+        <label class="form-label">Select Model to use : </label>
         <select class="form-control" name="model">
     <option value="Best Model" {% if prev_input and prev_input.model == 'Best Model' %}selected{% endif %}>Best Model</option>
     <option value="Random Forests"{% if prev_input and prev_input.model == 'Random Forests' %}selected{% endif %}>Random Forest</option>
@@ -48,6 +49,7 @@
             <input class="btn btn-primary" type="submit" value="Predict magnitude mB" required />
         </div>
         </form>
+    </div>
 <h2>Prediction is {{results}}</h2>
   </body>
 </html>

@@ -55,6 +55,12 @@ Then you can run app.py and access 127.0.0.1:5000 for a simple website that can 
 2. Root Mean Squared Error
 3. $R^2$ score
 
+### Model Performance
+
+![Model Performance](outputs/metrics.png)
+
+![Model Performance1](outputs/metrics2.png)
+
 ## Project Structure
 
 ```text
