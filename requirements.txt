@@ -2,7 +2,7 @@ numpy
 pandas
 matplotlib
 scikit-learn
-# xgboost
+xgboost-cpu
 catboost
 dill
 Flask
