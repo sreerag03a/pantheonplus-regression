@@ -11,6 +11,13 @@ __pycache__
 *.ipynb_checkpoints
 notebooks/
 outputs/logs/
+.env
+.venv
+.venv/
+env/
 venv/
+ENV/
+env.bak/
+venv.bak/
 pantheonplus_regression.egg-info/
 *.png

@@ -17,7 +17,7 @@ jobs:
       - name: Set up Python environment
         uses: actions/setup-python@v4
         with:
-          python-version: 3.13
+          python-version: 3.13-slim
 
       - name: Install Elastic Beanstalk CLI
         run: pip install awsebcli
