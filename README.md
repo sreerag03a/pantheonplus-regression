@@ -33,6 +33,8 @@ python project_stage.py
 
 Then you can run app.py and access 127.0.0.1:5000 for a simple website that can predict type Ia supernova magnitudes from input.
 
+**This web app has been deployed on AWS and can be accessed through [here](http://pantheonplus-regression-env.eba-92ywm24p.ap-south-1.elasticbeanstalk.com/)**
+
 ### Models
 
 1. Random Forests Regressor

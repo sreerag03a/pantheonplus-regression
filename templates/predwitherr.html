@@ -48,7 +48,7 @@
         </form>
     </div>
 {% if results %}
-  <h2>Prediction is {{ results[0][0] }} &plusmn; {{ results[1][0] }}</h2>
+  <h2>Prediction is {{ '%0.4f' | format(results[0][0]) }} &plusmn; {{ '%0.4f' | format(results[1][0]) }}</h2>
 {% else %}
   <h2>No prediction results yet.</h2>
 {% endif %}

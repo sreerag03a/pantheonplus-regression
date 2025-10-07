@@ -50,6 +50,10 @@
         </div>
         </form>
     </div>
-<h2>Prediction is {{results}}</h2>
+    {% if results %}
+<h2>Prediction is {{'%0.4f' | format(results)}}</h2>
+{% else %}
+  <h2>No prediction results yet.</h2>
+{% endif %}
   </body>
 </html>
