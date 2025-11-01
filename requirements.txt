@@ -6,5 +6,9 @@ xgboost-cpu
 catboost
 dill
 Flask
+emcee
+cython
+getdist
+# uncomment the previous line if you want to run the mcmc chains
 
 # -e .
