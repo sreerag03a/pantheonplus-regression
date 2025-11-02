@@ -63,6 +63,52 @@ Then you can run app.py and access 127.0.0.1:5000 for a simple website that can 
 
 ![Model Performance1](outputs/metrics2.png)
 
+### Bayesian Inference - Posterior Distributions Comparison
+
+#### $\Lambda \text{CDM}$
+
+<img src="outputs/lcdm_chains.png" alt="drawing" width="600"/>
+
+$\Lambda\text{CDM}$ - DES
+
+$H_0$ = 69.89 $\pm$ 0.90
+
+$\Omega_{m0}$ = 0.28 $\pm$ 0.01
+
+$M$ = -19.21 $\pm$ 0.05
+
+$\Lambda\text{CDM}$ - Simulated
+
+$H_0$ = 69.89 $\pm$ 0.91
+
+$\Omega_{m0}$ = 0.28 $\pm$ 0.01
+
+$M$ = -19.36 $\pm$ 0.07
+
+#### $\omega \text{CDM}$
+
+<img src="outputs/wcdm_chains.png" alt="drawing" width="600"/>
+
+$\omega\text{CDM}$ - DES
+
+$H_0$ = 69.07 $\pm$ 1.20
+
+$\Omega_{m0}$ = 0.27 $\pm$ 0.02
+
+$M$ = -19.22 $\pm$ 0.05
+
+$\omega_0$ = -0.92 $\pm$ 0.08
+
+$\omega\text{CDM}$ - Simulated
+
+$H_0$ = 69.08 $\pm$ 1.20
+
+$\Omega_{m0}$ = 0.27 $\pm$ 0.02
+
+$M$ = -19.37 $\pm$ 0.08
+
+$\omega_0$ = -0.92 $\pm$ 0.08
+
 ## Project Structure
 
 ```text
@@ -76,18 +122,24 @@ pantheonplus-regression/
 ├── outputs/
 │   └──models/
 ├── src/
-│   ├── components
-│   │   ├── handling
+│   ├── components/
+│   │   ├── handling/
 │   │   │   ├── exceptions.py
 │   │   │   ├── logger.py
 │   │   │   └── utils.py
-│   │   └── model
+│   │   └── model/
 │   │       ├── data_transformation.py
 │   │       └── model_trainer.py
-│   ├── notebooksrc
+│   ├── mcmc/
+│   │   ├── cythonize/
+│   │   │   ├── cosmofunctions.pyx
+│   │   │   └── setup.py
+│   │   ├── bayes_mcmc.py
+│   │   └── cosmo_compute.py
+│   ├── notebooksrc/
 │   │   ├── preprocessing.py
 │   │   └── regressors.py
-│   └── pipeline
+│   └── pipeline/
 │       └── predict_pipeline.py
 ├── templates/
 │   ├── home.html

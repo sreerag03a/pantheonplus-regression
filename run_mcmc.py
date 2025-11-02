@@ -45,11 +45,11 @@ Uncomment the below code if you want to save the predictions to a csv files
 real_data = z_DES.copy(),m_DES.copy().copy(),merr_DES.copy(),z_OHD.copy(),H_OHD.copy(),Herr_OHD.copy()
 sim_data = z_DES.copy(),mB_pred.copy(),mB_err_pred.copy(),z_OHD.copy(),H_OHD.copy(),Herr_OHD.copy()
 if __name__ == '__main__':
-    lcdm_samples,wcdm_samples = run_mcmc(real_data,24,2500) # run_mcmc(data,nwalkers,nsteps)
-    lcdm_samples1,wcdm_samples1 = run_mcmc(sim_data,24,2500)
+    lcdm_samples,wcdm_samples = run_mcmc(real_data,48,12000) # run_mcmc(data,nwalkers,nsteps)
+    lcdm_samples1,wcdm_samples1 = run_mcmc(sim_data,48,12000)
     
     labels1 = [r'$H_0$',r'$\Omega_{m0}$',r'$M$']
-    labels2 = [r'$H_0$',r'$\Omega_{m0}$', r'$\omega_0$',r'$M$']
+    labels2 = [r'$H_0$',r'$\Omega_{m0}$',r'$M$', r'$\omega_0$']
     g = plots.get_subplot_plotter(subplot_size=2)
 
     mcsamples = MCSamples(samples=lcdm_samples,names = labels1, label = r'$\Lambda$CDM - DES')
@@ -57,13 +57,21 @@ if __name__ == '__main__':
     mcsamples2 = MCSamples(samples=lcdm_samples1,names = labels1, label = r'$\Lambda$CDM - Simulated')
     mcsamples3 = MCSamples(samples=wcdm_samples1,names = labels2, label = r'$\omega$CDM - Simulated')
 
-    names = [r'$\Lambda$CDM - DES',r'$\omega$CDM - DES',r'$\Lambda$CDM - Simulated',r'$\omega$CDM - Simulated']
+    names = [r'$\Lambda\text{CDM}$ - DES',r'$\Lambda\text{CDM}$ - Simulated',r'$\omega\text{CDM}$ - DES',r'$\omega\text{CDM}$ - Simulated']
 
-    g.triangle_plot((mcsamples1,mcsamples2,mcsamples3,mcsamples),filled=True)
-    samples_total = [lcdm_samples,wcdm_samples,lcdm_samples1,wcdm_samples1]
+    # g.triangle_plot((mcsamples1,mcsamples2,mcsamples3,mcsamples),filled=True)
+    samples_total = [lcdm_samples,lcdm_samples1,wcdm_samples,wcdm_samples1]
     for i,samples in enumerate(samples_total):
         best_fit_params1 = np.median(samples, axis=0)
         parameter_uncertainties1 = np.std(samples, axis=0)
-        print(f'{names[i]} : {best_fit_params1}')
-        print(f'{names[i]} : {parameter_uncertainties1}')
-    plt.show()
+        print(f'{names[i]}\n')
+        for j,k in enumerate(best_fit_params1):
+            print(f'{labels2[j]} =  {k:.2f} $\pm$ {parameter_uncertainties1[j]:.2f}\n')
+
+    # plt.show()
+
+    g.triangle_plot((mcsamples,mcsamples2),filled=True)
+    plt.savefig('outputs/lcdm_chains.png',dpi=300)
+
+    g.triangle_plot((mcsamples1,mcsamples3),filled=True)
+    plt.savefig('outputs/wcdm_chains.png',dpi=300)
